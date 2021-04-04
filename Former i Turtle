@@ -1,0 +1,66 @@
+
+# This draws the shape that you entered with "shape.draw()"
+# Just enter the following in your shape in this order: (sides, name, size(standard is 120))
+
+
+# Sum of interior Angles:
+#3  Triangle  =  (3 - 2) * 180 = 180
+#4  Square    =  (4 - 2) * 180 = 360
+#5  Pentagon  =  (5 - 2) * 180 = 540
+#6  Hexagon   =  (6 - 2) * 180 = 720
+#7  Heptagon  =  (7 - 2) * 180 = 900
+# n = Sides
+#        (n-2) x 180
+
+
+#     Each Angle:
+#3  Triangle  =  (n-2) * 180 / n = 60
+#4  Square    =  (n-2) * 180 / n = 90
+#5  Pentagon  =  (n-2) * 180 / n = 108
+#6  Hexagon   =  (n-2) * 180 / n = 120
+#7  heptagon  =  (n-2) * 180 / n = 128.57
+# n = Sides
+#        (n-2) * 180 / n
+
+
+import turtle
+
+
+#  Class Function called Polygon
+class Polygon:
+
+    #  Making parameters
+    def __init__(self, sides, name, size=120):
+        self.sides = sides
+        self.name = name
+        self.size = size
+
+        #  Making formula for interior angles
+        self.interior_angles = (self.sides-2)*180
+        #  Making formula for each side
+        self.angle = self.interior_angles/self.sides
+
+    #  Draw function
+    def draw(self):
+        #  loop that draws with the values from above.
+        for i in range(self.sides):
+            turtle.forward(self.size)
+            turtle.right(180-self.angle)
+        turtle.done()
+
+
+
+#  Making different shapes
+triangle = Polygon(3, "Triangle")
+square = Polygon(4, "Square")
+pentagon = Polygon(5, "pentagon")
+hexagon = Polygon(6, "Hexagon")
+heptagon = Polygon(7, "Heptagon")
+
+#  Print a shape
+hexagon.draw()
+
+
+
+
+
