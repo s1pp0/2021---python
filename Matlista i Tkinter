@@ -1,0 +1,299 @@
+#|----------------------------------------------------------------------|#
+#|-------------------------LISTA ÖVER MAT I VECKAN----------------------|#
+#|----------------------------------------------------------------------|#
+#|------------------THIS MAKES A RANDOM SCECHULE FOR TO EAT ------------|#  
+#|---------------EACH WEEK. IT IS COMPLETELY RANDOM. YOU CHOOSE.--------|#
+#|----------------------------------------------------------------------|#
+
+import random
+from tkinter import *
+from tkinter import filedialog
+import pickle
+import pygame
+from tkinter import messagebox
+
+# ----THE-WINDOW----#
+app = Tk()
+app.title("Mat i veckan")
+app.geometry("600x600")
+app.iconbitmap("C:/Users/Skola/Desktop/ikoner/mat2.ico")
+# ----REMOVE-MAKER-BIGGER-BUTTON----#
+app.resizable(0, 0)
+
+
+# ----BAKGRUNDEN----#
+bg = PhotoImage(file="C:/Users/Skola/Desktop/ikoner/woood.png")
+
+# ----CANVAS-----#
+my_canvas = Canvas(app, width=600, height=600)
+my_canvas.pack(fill="both", expand=True)
+my_canvas.create_image(0, 0, image=bg, anchor="nw")
+
+# ----HEADING-RUBRIK---#
+my_canvas.create_text(200, 60, text="M A T S E D E L", font=("Times", 30))
+
+# ----LABEL-LISTA-ÖVER-MATRÄTTER----#
+my_canvas.create_text(460, 150, text="Lista över rätter:", font=("Times", 12))
+
+# ----LABEL-SKRIV-SJU-RÄTTER----#
+my_canvas.create_text(220, 480, text="Skriv  in  minst  sju  maträtter")
+
+# ----LISTAN-DÄR-ALLT-SPARAS----# 
+lista = []
+
+# ----VECKODAGARNA----#
+veckodag = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"]
+
+# ----EVERY-DAY-INFO----#
+mon = my_canvas.create_text(50, 180, text=f"{veckodag[0]}:", font=("Times", 15))
+tis = my_canvas.create_text(50, 220, text=f"{veckodag[1]}:", font=("Times", 15))
+ons = my_canvas.create_text(50, 260, text=f"{veckodag[2]}:", font=("Times", 15))
+tor = my_canvas.create_text(50, 300, text=f"{veckodag[3]}:", font=("Times", 15))
+fre = my_canvas.create_text(50, 340, text=f"{veckodag[4]}:", font=("Times", 15))
+lör = my_canvas.create_text(50, 380, text=f"{veckodag[5]}:", font=("Times", 15))
+sön = my_canvas.create_text(50, 420, text=f"{veckodag[6]}:", font=("Times", 15))
+
+# ----RANDOM-FOOD-BUTTON----#
+def klick():
+
+
+    # ----RANDOM-FROM-LIST----
+    veckomat = random.sample(lista, k=7)
+    global a1
+    global a2
+    global a3
+    global a4
+    global a5
+    global a6
+    global a7
+    # ----VECKOMAT-CANVAS----#
+    a1 = my_canvas.create_text(210, 180, text=f"{veckomat[0]}", font=("Times", 20))
+    a2 = my_canvas.create_text(210, 220, text=f"{veckomat[1]}", font=("Times", 20))
+    a3 = my_canvas.create_text(210, 260, text=f"{veckomat[2]}", font=("Times", 20))
+    a4 = my_canvas.create_text(210, 300, text=f"{veckomat[3]}", font=("Times", 20))
+    a5 = my_canvas.create_text(210, 340, text=f"{veckomat[4]}", font=("Times", 20))
+    a6 = my_canvas.create_text(210, 380, text=f"{veckomat[5]}", font=("Times", 20))
+    a7 = my_canvas.create_text(210, 420, text=f"{veckomat[6]}", font=("Times", 20))
+
+
+    slump_knapp.config(state=DISABLED)
+
+# ----RANDOM-BUTTON----#
+slump_knapp = Button(app, text="Skapa matsedel", width=12, borderwidth=2, state=DISABLED, command=klick)
+slump_knapp.config(font=("Times", 14))
+slump_knapp.place(x=100, y=100)
+
+pygame.mixer.init()
+
+# ----ENTRY-FUNCTION----#
+def onreturn(*args):
+    global got
+    got = ruta.get()
+    ruta.delete(0, END)
+    lista.append(got)
+    w.insert(END, got)
+
+    slump_knapp.config(state="normal")
+
+
+    
+   
+# ---LISTBOX----#
+w = Listbox(width=22, height=12)
+w.place(x=400, y=160)
+
+
+# ----ENTRY----#
+ruta = Entry(app, width=35)
+ruta.bind("<Return>", onreturn)
+ruta.get()
+ruta.place(x=120, y=440)
+
+
+# ----CLEAR-LIST-FUNCTION----#
+def clear_list(*args):
+    lista.clear()
+    w.delete(0, END)
+    
+    my_canvas.delete(a1)
+    my_canvas.delete(a2)
+    my_canvas.delete(a3)
+    my_canvas.delete(a4)
+    my_canvas.delete(a5)
+    my_canvas.delete(a6)
+    my_canvas.delete(a7)
+   
+    
+app.bind("<Control-d>", clear_list)
+
+# ----SAVE-LIST-FUNCTION----#
+def save_list(*args):  
+    if file_name:
+        if file_name.endswith(".dat"):
+            pass
+        else:
+            file_name = f"{file_name}.dat"
+
+        stuff = w.get(0, END)
+
+        output_file = open(file_name, "wb")
+
+        pickle.dump(stuff, output_file)
+    
+
+app.bind("<Control-s>", save_list)		
+
+# ----OPEN-LIST-FUNCITON----#
+def open_list(*args):
+    file_name = filedialog.askopenfilename(
+        initialdir="C:/Users/Skola/Desktop/listor",
+        title="Öppna Fil",
+        filetypes=(
+            ("Dat Files", "*.dat"), ("All Files", "*.*"))
+    )
+
+    if file_name:
+        lista.clear()
+        w.delete(0, END)
+        slump_knapp.config(state="normal")
+
+        input_file = open(file_name, "rb")
+
+        stuff = pickle.load(input_file)
+
+        for item in stuff:
+            w.insert(END, item)
+            lista.insert(0, item)
+        
+
+app.bind("<Control-o>", open_list)
+
+# ----INFO-(how?)-FUNCTION----#
+def infon():
+    window = Tk()
+    window.title("Hur gör man?")
+    window.geometry("500x300")
+    window.iconbitmap("C:/Users/Skola/Desktop/ikoner/i.ico")
+
+
+    hur = Label(window, text="""\n\n\nDenna app är utvecklad för att\n
+    	ge dig slumpmässiga alternativ till maträtter:\n""")
+    hur.pack(padx=0, pady=0)
+
+    this = Label(window, text="""\n-Skriv dina maträtter
+    	\n-gå till Arkiv\n-Spara Lista\n-Skapa Matsedel""")
+    this.configure(font=("Groudy Old Style", 15))
+    this.pack()
+
+    window.mainloop()
+
+
+# ----ABOUT-(me)-FUNCTION----#
+def about():
+    root = Tk()
+    root.title("Information")
+    root.geometry("300x300")
+    root.iconbitmap("C:/Users/Skola/Desktop/ikoner/info.ico")
+
+    info_text = Label(root, text="Skapad av:\n\nSamuel\nAlexander\nManiscalchi\nBäckman\n14 år gammal")
+    info_text.configure(font=("Times", 20))
+    info_text.place(x=0, y=0)
+
+    root.mainloop()
+
+
+#----MORE-(try my other apps)-FUNCTUIN----#
+def more():
+    window2 = Tk()
+    window2.geometry("600x500")
+    window2.iconbitmap("C:/Users/Skola/Desktop/ikoner/more.ico")
+
+    other = Label(window2, text="Try my other apps!!")
+    other.place(x=10, y=10)
+
+    calc = Label(window2, text="- Miniräknaren")
+    calc.place(x=10, y=40)
+
+    bmi = Label(window2, text="- BMI Räknare")
+    bmi.place(x=10, y=70)
+
+    window2.mainloop()
+
+# ----MENU----#
+min_menu = Menu(app)
+app.config(menu=min_menu)
+
+# ----ARKIV-MENU----#
+file_menu = Menu(min_menu, tearoff=False)
+min_menu.add_cascade(label="Arkiv", menu=file_menu)
+
+# ----INSIDE-ARKIV----#
+file_menu.add_command(label="Spara listan,       ctrl+s", command=save_list)
+file_menu.add_command(label="Öppna listan,     ctrl+o", command=open_list)
+file_menu.add_separator()
+file_menu.add_command(label="Rensa listan,       ctrl+d", command=clear_list)
+file_menu.add_separator()
+file_menu.add_command(label="Stäng program", command=quit)
+# ----HJÄLP-MENU----#
+file_menu2 = Menu(min_menu, tearoff=False)
+min_menu.add_cascade(label="Hjälp", menu=file_menu2)
+
+# ----INSIDE-HJÄLP----#
+file_menu2.add_command(label="Info", command=infon)
+file_menu2.add_command(label="Om", command=about)
+
+# ----MORE-MENU----#
+file_menu3 = Menu(min_menu, tearoff=False)
+min_menu.add_cascade(label="Mer", menu=file_menu3)
+
+# ----INSIDE-MORE-MENU----#
+file_menu3.add_command(label="Andra program", command=more)
+
+
+# ----DELETE-RÄTT-FUNCTION----#
+def delete():
+    w.delete(ANCHOR)
+
+
+# ----DELETE-BUTTON----#
+my_delete = Button(app, text="Rensa maträtten", command=delete)
+my_delete.place(x=400, y=380)
+
+# ----START-SOUND-+-FUNCTION----#
+pygame.mixer.init()
+
+#----START-MUSIC-FUNCTION----#
+def start():
+    # ----SOUND----#
+    pygame.mixer.music.load("C:/Users/Skola/Desktop/sounds/jazz.mp3")
+    pygame.mixer.music.play()
+
+# ----STOP-MUSIC-FUNCTION----#
+def stop():
+    pygame.mixer.music.pause()
+
+
+# ---START-BUTTON-MUSIC----#
+start_button = Button(app, text="Starta musik", width=10, command=start)
+start_button.place(x=430, y=10)
+
+# ----STOP-BUTTON-MUSIC----#
+stop_button = Button(app, text="Stoppa Musik", width=10, command=stop)
+stop_button.place(x=430, y=50)
+
+
+# ----QUIT-APP-FUNCTION----#
+def quit():
+    #----MESSAGE-BEFORE-CLOSING----#
+    stop = messagebox.askyesno("Stäng program", "Är du säker")
+    if True:
+        app.quit()
+    else:
+        pass
+
+#----QUIT-BUTTON----#
+burp = Button(text="Stäng program", command=quit)
+burp.place(x=500, y=500)
+
+#----KEEP-THE-PROGRAM-RUNNING----#
+app.mainloop()
