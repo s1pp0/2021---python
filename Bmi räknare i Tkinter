@@ -1,0 +1,103 @@
+# Samuel Maniscalchi BMI räknare. fungerar.
+# Enkel, lätt men effektiv BMI Räknare
+
+from tkinter import *
+import decimal
+
+# info om rutan/widgeten
+app = Tk()
+app.title("BMI räknare //Samuel")
+app.geometry("400x400")
+app.configure(bg="bisque")
+app.iconbitmap("C:/Users/Skola/Desktop/ikoner/vikt.ico")
+
+# Rubrik
+title = Label(app, text="Beräkna ditt BMI")
+title.configure(bg="bisque")
+title.config(font=("courier", 30))
+title.grid(row=0, column=0)
+
+# Under rubrik
+under_title = Label(app, text="Ange din vikt och längd nedan:")
+under_title.config(font=("courier", 10))
+under_title.configure(bg="bisque")
+under_title.grid(row=1, column=0)
+
+
+# Mellan rum med inget
+space = Label(app, text="")
+space.configure(bg="bisque")
+space.grid(row=2, column=0)
+space_2 = Label(app, text="")
+space_2.configure(bg="bisque")
+space_2.grid(row=3, column=0)
+
+# vikt texten
+vikt_text = Label(app, text="Vikt (kg):")
+vikt_text.configure(bg="bisque")
+vikt_text.config(font=("courier", 10))
+vikt_text.grid(row = 20, column=0, pady=2)
+
+# längd texten
+längd_text = Label(app, text="Längd (m):")
+längd_text.configure(bg="bisque")
+längd_text.config(font=("courier", 10))
+längd_text.grid(row = 50, column=0, pady=2)
+
+# Rutan som skriver kg
+Vikt = Entry(app, width=35, borderwidth=2)
+Vikt.grid(column=0, row=40, pady=2)
+
+# Rutan som skriver m
+Längd = Entry(app, width=35, borderwidth=2)
+Längd.grid(column=0, row=60, pady=2)
+
+# Bmi texten
+label_result = Label(app, text="BMI: ")
+label_result.configure(bg="bisque")
+label_result.config(font=("courier", 15))
+label_result.grid(row=100, column=0, pady=2)
+
+
+# När man klickar på knappen startar "def" nedan (def = funktion)
+def click():
+    kg = float(Vikt.get())
+    meter = float(Längd.get())
+    bmi = round(kg / (meter ** 2), 2)
+    label_result["text"] = f"Bmi: {bmi}"
+    bmi = round(bmi, 2)
+
+    if bmi < 25:
+        label_25 = Label(app, text="you are not overweight     ")
+        label_25.configure(bg="bisque")
+        label_25.config(font=("courier", 15))
+        label_25.grid(row=101, column=0, pady=2)
+
+    elif ((bmi>= 25) and (bmi<= 26)):
+        label_26 = Label(app, text="You are a little overweight")
+        label_26.configure(bg="bisque")
+        label_26.config(font=("courier", 15))
+        label_26.grid(row=101, column=0, pady=2)
+    else:
+        label_27 = Label(app, text="You are overweight         ")
+        label_27.configure(bg="bisque")
+        label_27.config(font=("courier", 15))
+        label_27.grid(row=101, column=0, pady=2)
+
+# Knappen görs och kordineras här.
+Button_brk = Button(app, text="Beräkna", padx=40, pady=5, command=click)
+Button_brk.configure(bg="white")
+Button_brk.grid(row=70, column=0)
+
+# Avlsuta programmet knapp
+button_quit = Button(app, text="Avsluta Program", command=app.quit)
+button_quit.grid(row=110, column=0)
+
+
+app.mainloop()
+
+
+
+
+
+
