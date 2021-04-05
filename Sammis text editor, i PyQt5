@@ -1,0 +1,300 @@
+
+# Detta är en häftig text editor skapad av: SAMUEL MANISCALCHI BÄCKMAN (14 år gammal)
+#
+# Du kan:
+# ------------------
+#  SPARA FIL, 
+#  ÖPPNA FIL, 
+#  SKRIVA UT, 
+#  VISA UTSKRITSFORMAT, 
+#  EXPORTERA PDF, 
+#  ÅNGRA, 
+#  ÅNGRA INTE, 
+#  TYPSNITT,
+#  FÄRG, 
+#  + Lite små saker till
+# -------------------
+
+# Importerar allt jag behöver + lite jag inte behöver....
+import sys
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QMessageBox, QFontDialog, QColorDialog, QApplication, QLabel, QMainWindow
+from PyQt5.QtPrintSupport import QPrinter, QPrintDialog, QPrintPreviewDialog
+from PyQt5.QtCore import QFileInfo, Qt
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(1400, 884)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit.setGeometry(QtCore.QRect(0, 0, 1400, 831))
+        self.textEdit.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.textEdit.setObjectName("textEdit")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1012, 26))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        self.menuEdit = QtWidgets.QMenu(self.menubar)
+        self.menuEdit.setObjectName("menuEdit")
+        self.menuFormat = QtWidgets.QMenu(self.menubar)
+        self.menuFormat.setObjectName("menuFormat")
+        self.menuHj_lp = QtWidgets.QMenu(self.menubar)
+        self.menuHj_lp.setObjectName("menuHj_lp")
+        self.menuOm = QtWidgets.QMenu(self.menuHj_lp)
+        self.menuOm.setObjectName("menuOm")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionNew = QtWidgets.QAction(MainWindow)
+        self.actionNew.setObjectName("actionNew")
+        self.actionOpen = QtWidgets.QAction(MainWindow)
+        self.actionOpen.setObjectName("actionOpen")
+        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.actionSave_as = QtWidgets.QAction(MainWindow)
+        self.actionSave_as.setObjectName("actionSave_as")
+        self.actionPrint = QtWidgets.QAction(MainWindow)
+        self.actionPrint.setObjectName("actionPrint")
+        self.actionPrint_preview = QtWidgets.QAction(MainWindow)
+        self.actionPrint_preview.setObjectName("actionPrint_preview")
+        self.actionExport_PDF = QtWidgets.QAction(MainWindow)
+        self.actionExport_PDF.setEnabled(True)
+        self.actionExport_PDF.setObjectName("actionExport_PDF")
+        self.actionExit = QtWidgets.QAction(MainWindow)
+        self.actionExit.setObjectName("actionExit")
+        self.actionCopy = QtWidgets.QAction(MainWindow)
+        self.actionCopy.setObjectName("actionCopy")
+        self.actionCut = QtWidgets.QAction(MainWindow)
+        self.actionCut.setObjectName("actionCut")
+        self.actionPaste = QtWidgets.QAction(MainWindow)
+        self.actionPaste.setObjectName("actionPaste")
+        self.actionUndo = QtWidgets.QAction(MainWindow)
+        self.actionUndo.setObjectName("actionUndo")
+        self.actionRedo = QtWidgets.QAction(MainWindow)
+        self.actionRedo.setObjectName("actionRedo")
+        self.actionFet = QtWidgets.QAction(MainWindow)
+        self.actionFet.setObjectName("actionFet")
+        self.actionColor = QtWidgets.QAction(MainWindow)
+        self.actionColor.setObjectName("actionColor")
+        self.actionBold = QtWidgets.QAction(MainWindow)
+        self.actionBold.setObjectName("actionBold")
+        self.actionUnder_linje = QtWidgets.QAction(MainWindow)
+        self.actionUnder_linje.setObjectName("actionUnder_linje")
+        self.actionFont_2 = QtWidgets.QAction(MainWindow)
+        self.actionFont_2.setObjectName("actionFont_2")
+        self.actionF_rg = QtWidgets.QAction(MainWindow)
+        self.actionF_rg.setObjectName("actionF_rg")
+        self.actionSkaparen = QtWidgets.QAction(MainWindow)
+        self.actionSkaparen.setObjectName("actionSkaparen")
+        self.actionOm_PyQt5 = QtWidgets.QAction(MainWindow)
+        self.actionOm_PyQt5.setObjectName("actionOm_PyQt5")
+
+        # ALLA MENYER OCH FUNKTIONERNA (triggered.connect(self.någon))
+        self.menuFile.addAction(self.actionNew)
+        self.actionNew.triggered.connect(self.new_file)
+        self.menuFile.addAction(self.actionOpen)
+        self.actionOpen.triggered.connect(self.open_file)
+        self.menuFile.addAction(self.actionSave)
+        self.actionSave.triggered.connect(self.save_file)
+        self.menuFile.addAction(self.actionSave_as)
+        self.actionSave_as.triggered.connect(self.save_as_file)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionPrint)
+        self.actionPrint.triggered.connect(self.print_file)
+        self.menuFile.addAction(self.actionPrint_preview)
+        self.actionPrint_preview.triggered.connect(self.print_preview_file)
+        self.menuFile.addAction(self.actionExport_PDF)
+        self.actionExport_PDF.triggered.connect(self.export_pdf_file)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionExit)
+        self.actionExit.triggered.connect(self.exit_file)
+        self.menuEdit.addAction(self.actionUndo)
+        self.actionUndo.triggered.connect(self.textEdit.undo)
+        self.menuEdit.addAction(self.actionRedo)
+        self.actionRedo.triggered.connect(self.textEdit.redo)
+        self.menuEdit.addSeparator()
+        self.menuFormat.addAction(self.actionFet)
+        self.actionFet.triggered.connect(self.text_bold)
+        self.menuFormat.addAction(self.actionColor)
+        self.actionColor.triggered.connect(self.text_italic)
+        self.menuFormat.addAction(self.actionUnder_linje)
+        self.actionUnder_linje.triggered.connect(self.text_under_line)
+        self.menuFormat.addSeparator()
+        self.menuFormat.addAction(self.actionFont_2)
+        self.actionFont_2.triggered.connect(self.font_file)
+        self.menuFormat.addAction(self.actionF_rg)
+        self.actionF_rg.triggered.connect(self.color_file)
+        self.menuOm.addAction(self.actionSkaparen)
+        self.actionSkaparen.triggered.connect(self.file_creator)
+        self.menuOm.addSeparator()
+        self.menuOm.addAction(self.actionOm_PyQt5)
+        self.actionOm_PyQt5.triggered.connect(self.file_about_pyqt5)
+
+        # MENYERNA:
+        self.menuHj_lp.addAction(self.menuOm.menuAction())
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuEdit.menuAction())
+        self.menubar.addAction(self.menuFormat.menuAction())
+        self.menubar.addAction(self.menuHj_lp.menuAction())
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+
+    # gör en ny fil (Tar bort allt i "textEdit") (Funktionen)
+    def new_file(self):
+       self.textEdit.clear()
+
+    # öppnar bibloteket "sammis_text_editor" genom vägen: "C:/Users/Skola/Documents/Sammis_text_editor" (Funktionen)
+    def open_file(self):
+        print("hej")
+        file_name = QFileDialog.getOpenFileName(None, "Öppna", "C:/Users/Skola/Documents/Sammis_text_editor", "txt files (*.txt)")
+
+        if file_name[0]:
+
+            f = open(file_name[0], "r")
+
+            with f:
+                data = f.read()
+
+                self.textEdit.setText(data)
+
+    # spara filen du är i just nu Funktionen
+    def save_file(self):
+        print("Du sparade filen")
+
+    # spara som Funktionen
+    def save_as_file(self):
+        file_name = QFileDialog.getSaveFileName(None, "Spara", "C:/Users/Skola/Documents/Sammis_text_editor", "txt files (*.txt)")
+
+        if file_name[0]:
+            f = open(file_name[0], "w")
+
+            with f:
+                text = self.textEdit.toPlainText()
+                f.write(text)
+
+                QMessageBox.about(None, "Sparad fil", "Sparad fil lyckades")
+
+    # skriva ut filen du skriver i (Funktion)
+    def print_file(self):
+        printer = QPrinter(QPrinter.HighResolution)
+        dialog = QPrintDialog(printer, None)
+
+        if dialog.exec_() == QPrintDialog.Accepted:
+            self.textEdit.print_(printer)
+ 
+    # visa utskrivsformat (pdf)(funktionen-del.1)
+    def print_preview_file(self):
+        printer = QPrinter(QPrinter.HighResolution)
+        preview_dialog = QPrintPreviewDialog(printer, None)
+        preview_dialog.paintRequested.connect(self.print_preview)
+        preview_dialog.exec_()
+
+    # visa utskrivsformat (pdf) (funktionen-del.2)
+    def print_preview(self, printer):
+        self.textEdit.print_(printer)
+
+    # göra en pdf (funktion)
+    def export_pdf_file(self):
+        fn, _ = QFileDialog.getSaveFileName(None, "Exportera PDF", None, "PDF files (.pdf) ;; ALL FILES()")
+        if fn != "":
+            if QFileInfo(fn).suffix() == "" : fn += ".pdf"
+            printer = QPrinter(QPrinter.HighResolution)
+            printer.setOutputFormat(QPrinter.PdfFormat)
+            printer.setOutputFileName(fn)
+            self.textEdit.document().print_(printer)
+
+    # avsluta "mitt fina program" (funktion)
+    def exit_file(self):
+        MainWindow.close()
+
+    # font funktion
+    def font_file(self):
+        font, ok = QFontDialog.getFont()
+
+
+        if ok:
+            self.textEdit.setFont(font)
+
+    # välj färg funktion
+    def color_file(self):
+        color = QColorDialog.getColor()
+        self.textEdit.setTextColor(color)
+
+    # FET text funktion
+    def text_bold(self):
+        font = QFont()
+        font.setBold(True)
+        self.textEdit.setFont(font)
+
+    # Kursiv text funktion
+    def text_italic(self):
+        font = QFont()
+        font.setItalic(True)
+        self.textEdit.setFont(font)
+
+    # Understruken text funktion
+    def text_under_line(self):
+        font = QFont()
+        font.setUnderline(True)
+        self.textEdit.setFont(font)
+
+    # Ruta om skaparen funktion
+    def file_creator(self):
+        QMessageBox.about(None, "Skaparen", "Samuel Maniscalchi Bäckman\n14 år gammal")
+        
+    # Ruta om PyQt5 funktion
+    def file_about_pyqt5(self): 
+        QMessageBox.about(None, "Om PyQt5", "PyQt5 är ett väldigt användbart GUI biblotek.")
+
+
+
+
+
+
+
+    # Namn på alla menyer:
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "𝕊 𝔸 𝕄 𝕄 𝕀 𝕊  -  𝕋 𝔼 𝕏 𝕋  -  𝔼 𝔻 𝕀 𝕋 𝕆 ℝ"))
+        self.menuFile.setTitle(_translate("MainWindow", "Arkiv"))
+        self.menuEdit.setTitle(_translate("MainWindow", "Redigering"))
+        self.menuFormat.setTitle(_translate("MainWindow", "Format"))
+        self.menuHj_lp.setTitle(_translate("MainWindow", "Hjälp"))
+        self.menuOm.setTitle(_translate("MainWindow", "Om"))
+        self.actionNew.setText(_translate("MainWindow", "Ny                                                    Ctrl+N"))
+        self.actionOpen.setText(_translate("MainWindow", "Öppna                                             Ctrl+O"))
+        self.actionSave.setText(_translate("MainWindow", "Spara                                                Ctrl+S"))
+        self.actionSave_as.setText(_translate("MainWindow", "Spara som                             Ctrl+Shift+S"))
+        self.actionPrint_preview.setText(_translate("MainWindow", "Utskriftsformat"))
+        self.actionPrint.setText(_translate("MainWindow", "Skriv ut                                             Ctrl+P"))
+        self.actionExport_PDF.setText(_translate("MainWindow", "Exportera PDF"))
+        self.actionExit.setText(_translate("MainWindow", "Avsluta mitt fina program..          Ctrl+E"))
+        self.actionUndo.setText(_translate("MainWindow", "↩ Ångra"))
+        self.actionRedo.setText(_translate("MainWindow", "↪ Ångra inte!"))
+        self.actionFet.setText(_translate("MainWindow", "𝐅et                                       Ctrl+F"))
+        self.actionColor.setText(_translate("MainWindow", "𝓚ursiv                                  Ctrl+I"))
+        self.actionBold.setText(_translate("MainWindow", "Bold"))
+        self.actionUnder_linje.setText(_translate("MainWindow", "_Understruken                     Ctrl+U"))
+        self.actionFont_2.setText(_translate("MainWindow", "Typsnitt"))
+        self.actionF_rg.setText(_translate("MainWindow", "Färg"))
+        self.actionSkaparen.setText(_translate("MainWindow", "Skaparen"))
+        self.actionOm_PyQt5.setText(_translate("MainWindow", "Om PyQt5"))
+     
+
+
+# Startar hela skiten
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
