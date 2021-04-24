@@ -286,7 +286,7 @@ stop_button.place(x=430, y=50)
 def quit():
     #----MESSAGE-BEFORE-CLOSING----#
     stop = messagebox.askyesno("Stäng program", "Är du säker")
-    if True:
+    if stop == True:
         app.quit()
     else:
         pass
