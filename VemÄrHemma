@@ -1,0 +1,51 @@
+# -------------------------------------------------------------------------------------
+# Denna koden är gjord i Python. Jag kan med hjälp av bluetooth veta vem som är hemma
+# Jag gör en If sats:
+#  if "pappa" == "hemma":
+#    print("hemma")
+#  else:
+#    print("ute")
+#    
+# Jag måste därför ta reda på allas unika bluetooth nummer som: 4C:50:77:47:C7:B3 
+
+
+#!/usr/bin/python
+
+import bluetooth
+import time
+
+print ""
+print " +------+.      +------+       +------+       +------+      .+------+"
+print "|`.    | `.    |\     |\      |      |      /|     /|    .' |    .'|"
+print "|  `+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+'  |"
+print "|   | S |  |   | |  A | |     |   M  |     | |  M | |   |   |I |   |"
+print "+---+--+.  |   +-+----+ |     +------+     | +----+-+   |  .+--+---+"
+print " `. |    `.|    \|     \|     |      |     |/     |/    |.'    | .'"
+print "   `+------+     +------+     +------+     +------+     +------+'"
+print ""
+print "                         Vem e hemma?                    "
+print "                         Kollar ifall Pappa, Marie eller Michel e hemma"
+print ""
+while True:
+    print "Kollar " + time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime())
+
+    result = bluetooth.lookup_name('4C:50:77:47:C7:BB', timeout=5)
+    if (result != None):
+        print "Pappa:  hemma"
+    else:
+        print "Pappa:  ute"
+
+    result = bluetooth.lookup_name('94:B0:1F:44:14:EF', timeout=5)
+    if (result != None):
+        print "Marie:  hemma"
+    else:
+        print "Marie:  ute"
+
+
+    result = bluetooth.lookup_name('88:A9:B7:AF:9F:C7', timeout=5)
+    if (result != None):
+        print "Samuel: hemma"
+    else:
+        print "Samuel: ute"
+
+   break
