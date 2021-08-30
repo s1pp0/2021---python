@@ -29,11 +29,11 @@ print ""
 while True:
     print "Kollar " + time.strftime("%a, %d %b %Y %H:%M:%S", time.gmtime())
 
-    result = bluetooth.lookup_name('4C:50:77:47:C7:BB', timeout=5)
+    result = bluetooth.lookup_name('BLUETOOTH ID', timeout=5)
     if (result != None):
-        print "Pappa:  hemma"
+        print "Person:  home"
     else:
-        print "Pappa:  ute"
+        print "Person:  Not home"
 
     result = bluetooth.lookup_name('94:B0:1F:44:14:EF', timeout=5)
     if (result != None):
