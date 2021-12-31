@@ -8,10 +8,10 @@ Jag har både gjort python pogram som;
   Matlistan, (mycket tkinter - python)
   Spel, (inte så kul men har ändå gjort ett)
   Kollar vem som är hemma med hjälp utav Bluetooth (ROLIGT!)
-  Etc..
+  se mer i 2021 mappen.
   
 Jag har även gjort en egen hemsida som heter Sammi.nu.
-Jag har därför velat lära mig Html, Css och Javascript. 
+Jag har därför velat lära mig HTML, CSS och JavaScript. 
 
 Slutreflektion:
   Jag håller på att lära mig: PYTHON, HTML, CSS och JAVASRIPT + matte. Jag tycker verkligen om matte.
